@@ -1,0 +1,35 @@
+How to create a bootable FOSSEE-OS system from a SD Card
+--------------------------------------------------------
+
+1) Create two partitions in a SD card, one of 100MB vfat and the remaining of ext4.
+    > sudo fdisk /dev/$dev_name
+    Partition 1
+    ===========
+    Create a new partition -> n
+    Assign the partition to a primary one -> p
+    Allocate the starting block -> Enter
+    Allocate the endpoint block -> +100M
+    
+    Partition 2
+    ===========
+    Create another partition -> n
+    Assign the partition to a primary block -> p
+    Allocate the initial block -> Enter
+    Allocate the endpoint block -> Enter
+    Write the changes to the drive -> w
+
+2) Format the 1st partition to vfat
+   > sudo mkfs.vfat /dev/$dev_name1
+
+3) Format the 2nd partition to ext4
+   > sudo mkfs.ext4 /dev/$dev_name2
+
+4) Mount the two partition somewhere( say, /mnt)
+   > sudo mount /dev/$dev_name1 /mnt/boot
+   > sudo mount /dev/$dev_name2 /mnt/rootfs
+
+5) untar the contents of boot.tar from here(http://www.it.iitb.ac.in/AakashApps/repo/netbook/fossee-os-sdcard-boot/boot/boot.tar) into the 1st partition.
+
+6) untar the contents of fossee-os.tar.gz from here(www.it.iitb.ac.in/AakashApps/repo/netbook/fossee-os-sdcard-boot/rootfs/fossee-os.tar.gz) into the 2nd partition.
+
+7) unmount the SD Card and insert it into the Laptop and reboot.
